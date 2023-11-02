@@ -1,0 +1,41 @@
+type Attribute {
+  name: string,
+  value: string
+}
+
+type Collectible {
+  owner: PublicKey,
+  metadata: string,
+  attributes: list<Attribute>
+}
+
+function createCollectible(owner: PublicKey, metadata: string, attributes: list<Attribute>): Collectible {
+  return Collectible {
+    owner: owner,
+    metadata: metadata,
+    attributes: attributes
+  };
+}
+
+function transferCollectible(collectible: Collectible, recipient: PublicKey) {
+  assert(collectible.owner != recipient, "Cannot transfer to the current owner");
+  collectible.owner = recipient;
+  // Perform the transfer logic here
+  // e.g., update recipient's collectible collection
+  print("Transfer successful: Collectible transferred from ", collectible.owner, " to ", recipient);
+}
+
+function main() {
+  let owner: PublicKey = "0x0123456789abcdef";  // Replace with actual public key
+  let metadata: string = "Collectible Metadata";
+  let attributes: list<Attribute> = [
+    Attribute { name: "Attribute 1", value: "Value 1" },
+    Attribute { name: "Attribute 2", value: "Value 2" }
+  ];
+  
+  let collectible: Collectible = createCollectible(owner, metadata, attributes);
+  
+  let recipient: PublicKey = "0xfedcba9876543210";  // Replace with actual public key
+  
+  transferCollectible(collectible, recipient);
+}
